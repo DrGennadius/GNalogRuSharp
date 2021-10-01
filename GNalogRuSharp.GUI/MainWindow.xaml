@@ -98,18 +98,10 @@
                       Grid.Column="1" 
                       HorizontalAlignment="Stretch" 
                       Margin="4"/>
-            <Grid Grid.Row="6" 
-                  Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding DocNumber}" 
-                         Margin="4"/>
-                <TextBox Text="{Binding DocSeries}" 
-                         Grid.Column="1" 
-                         Margin="4"/>
-            </Grid>
+            <TextBox Text="{Binding DocNumberSeries}"
+                     Grid.Row="6"
+                     Grid.Column="1"
+                     Margin="4"/>
             <DatePicker SelectedDate="{Binding DocDate}" 
                         Grid.Row="7" 
                         Grid.Column="1" 

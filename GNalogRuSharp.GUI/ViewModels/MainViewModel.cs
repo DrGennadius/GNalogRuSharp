@@ -16,8 +16,7 @@ namespace GNalogRuSharp.GUI.ViewModels
         private string _result;
         private DateTime? _docDate;
         private string _birthPlace;
-        private string _docSeries;
-        private string _docNumber;
+        private string _docNumberSeries;
         private DateTime? _birthDate;
         private string _patronymic;
         private string _name;
@@ -63,23 +62,13 @@ namespace GNalogRuSharp.GUI.ViewModels
             }
         }
 
-        public string DocNumber
+        public string DocNumberSeries
         {
-            get => _docNumber;
+            get => _docNumberSeries;
             set
             {
-                _docNumber = value;
-                OnPropertyChanged("DocNumber");
-            }
-        }
-
-        public string DocSeries
-        {
-            get => _docSeries;
-            set
-            {
-                _docSeries = value;
-                OnPropertyChanged("DocSeries");
+                _docNumberSeries = value;
+                OnPropertyChanged("DocNumberSeries");
             }
         }
 
@@ -137,7 +126,7 @@ namespace GNalogRuSharp.GUI.ViewModels
                           Patronymic,
                           BirthDate,
                           DocType,
-                          DocNumber + ' ' + DocSeries,
+                          DocNumberSeries,
                           BirthPlace,
                           DocDate);
                       bool isSucces = client.FetchINN();

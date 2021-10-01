@@ -1,5 +1,7 @@
+using GNalogRuSharp.Helpers;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
@@ -26,6 +28,15 @@ namespace GNalogRuSharp.Tests
             client.RemoteCertificateValidationCallbackFunc = TestValidationCallback;
             isSucces = client.FetchINN();
             Assert.IsFalse(isSucces);
+
+            Assert.Pass();
+        }
+
+        [Test]
+        public void Test2()
+        {
+            var docTypeValueAndDescription = EnumHelper.GetAllValuesAndDescriptions(typeof(DocumentType));
+            Assert.IsTrue(docTypeValueAndDescription.Any());
 
             Assert.Pass();
         }

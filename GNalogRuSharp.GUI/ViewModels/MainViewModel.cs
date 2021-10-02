@@ -118,23 +118,7 @@ namespace GNalogRuSharp.GUI.ViewModels
             get
             {
                 return _getInnCommand ??
-                  (_getInnCommand = new RelayCommand(obj =>
-                  {
-                      InnService client = new InnService();
-                      client.SetData(
-                          Surname,
-                          Name,
-                          Patronymic,
-                          BirthDate,
-                          DocType,
-                          DocNumberSeries,
-                          BirthPlace,
-                          DocDate);
-                      bool isSucces = client.FetchINN();
-                      Result = isSucces
-                        ? "ИНН: " + client.FNSInfo.Inn
-                        : $"Не получилось...\n{client.ErrorString}\n\nПроверьте правильность данных.";
-                  }));
+                  (_getInnCommand = new RelayCommand(x => FetchInnAsync()));
             }
         }
 
@@ -143,6 +127,30 @@ namespace GNalogRuSharp.GUI.ViewModels
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        private async void FetchInnAsync()
+        {
+            InnService client = new InnService();
+            try
+            {
+                var result = await client.GetInnAsync(
+                    Surname,
+                    Name,
+                    Patronymic,
+                    BirthDate,
+                    DocType,
+                    DocNumberSeries,
+                    BirthPlace,
+                    DocDate);
+                Result = result.Code == 0
+                  ? "ИНН: " + result.Inn
+                  : "Не получилось...";
+            }
+            catch (Exception ex)
+            {
+                Result = ex.Message + '\n' + ex.StackTrace;
+            }
         }
     }
 }

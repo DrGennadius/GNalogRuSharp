@@ -3,9 +3,11 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GNalogRuSharp.Services
 {
@@ -62,73 +64,13 @@ namespace GNalogRuSharp.Services
         }
 
         /// <summary>
-        /// Данные в виде строки для запроса
+        /// Получить ИНН по паспортным данным.
         /// </summary>
-        public string DataString { get; private set; }
-
-        /// <summary>
-        /// Строка ошибки
-        /// </summary>
-        public string ErrorString { get; private set; }
-
-        /// <summary>
-        /// Строка ответа
-        /// </summary>
-        /// <example>
-        /// 1. Пример ответа API налоговой, если ИНН найден:
-        /// {'inn': 'xxxxxxxxxxxx', 'captchaRequired': False, 'code': 1}
-        /// 2. Ответ API, если ИНН не найден:
-        /// {'captchaRequired': False, 'code': 0}
-        /// </example>
-        public string ResponseString { get; private set; }
-
-        /// <summary>
-        /// Полученная информация.
-        /// </summary>
-        public InnResult FNSInfo { get; private set; }
-
-        /// <summary>
-        /// Установить данные.
-        /// </summary>
-        /// <param name="surname">Фамилия (обязательно)</param>
-        /// <param name="name">Имя (обязательно)</param>
-        /// <param name="patronymic">Отчество (обязательно)</param>
-        /// <param name="birthDate">Дата рождения (обязательно)</param>
-        /// <param name="docType">Вид документа, удостоверяющего личность (обязательно)</param>
-        /// <param name="docNumber">Серия и номер документа (обязательно)</param>
-        /// <param name="birthPlace">Место рождения</param>
-        /// <param name="docDate">Дата выдачи документа</param>
-        public void SetData(string surname, string name, string patronymic, DateTime? birthDate, DocumentType docType, string docNumber, string birthPlace = null, DateTime? docDate = null)
-        {
-            InnData innData = new InnData()
-            {
-                Surname = surname,
-                Name = name,
-                Patronymic = patronymic,
-                BirthDate = birthDate,
-                DocType = docType,
-                DocNumber = docNumber,
-                BirthPlace = birthPlace,
-                DocDate = docDate
-            };
-            DataString = innData.UrlEncode();
-        }
-
-        /// <summary>
-        /// Сделать запрос на получение ИНН.
-        /// </summary>
+        /// <param name="data"></param>
         /// <returns></returns>
-        public bool FetchINN()
+        public async Task<InnResult> GetInnAsync(InnData data)
         {
-            FNSInfo = new InnResult()
-            {
-                Code = 0
-            };
-
-            if (string.IsNullOrWhiteSpace(DataString))
-            {
-                return false;
-            }
+            InnResult result = new InnResult();
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ApiUrl);
 
@@ -145,53 +87,60 @@ namespace GNalogRuSharp.Services
             // Для отправки используется метод Post
             request.Method = "POST";
 
+            string dataString = data.UrlEncode();
             // Преобразуем данные в массив байтов
-            byte[] byteArray = Encoding.UTF8.GetBytes(DataString);
+            byte[] byteArray = Encoding.UTF8.GetBytes(dataString);
             // устанавливаем тип содержимого - параметр ContentType
             request.ContentType = "application/x-www-form-urlencoded";
             // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
             request.ContentLength = byteArray.Length;
 
             // Записываем данные в поток запроса
-            using (Stream dataStream = request.GetRequestStream())
+            using (Stream dataStream = await request.GetRequestStreamAsync())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
             }
 
-            try
+            WebResponse response = await request.GetResponseAsync();
+            using (Stream stream = response.GetResponseStream())
             {
-                WebResponse response = request.GetResponse();
-                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
                 {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        //DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(FNSInfo));
-                        //FNSInfo = (FNSInfo)deserializer.ReadObject(stream);
-                        ResponseString = reader.ReadToEnd();
-                        FNSInfo = JsonConvert.DeserializeObject<InnResult>(ResponseString);
-                    }
-                }
-                response.Close();
-            }
-            catch (WebException webEx)
-            {
-                if (webEx.Response != null)
-                {
-                    using (var stream = webEx.Response.GetResponseStream())
-                    {
-                        using (var reader = new StreamReader(stream))
-                        {
-                            ErrorString = reader.ReadToEnd();
-                        }
-                    }
+                    var responseContent = reader.ReadToEnd();
+                    result = await Task.Run(() => JsonConvert.DeserializeObject<InnResult>(responseContent));
                 }
             }
-            catch (Exception ex)
-            {
-                ErrorString = ex.Message;
-            }
+            response.Close();
 
-            return FNSInfo.Code == 1;
+            return result;
+        }
+
+        /// <summary>
+        /// Получить ИНН по паспортным данным.
+        /// </summary>
+        /// <param name="surname">Фамилия (обязательно)</param>
+        /// <param name="name">Имя (обязательно)</param>
+        /// <param name="patronymic">Отчество (обязательно)</param>
+        /// <param name="birthDate">Дата рождения (обязательно)</param>
+        /// <param name="docType">Вид документа, удостоверяющего личность (обязательно)</param>
+        /// <param name="docNumber">Серия и номер документа (обязательно)</param>
+        /// <param name="birthPlace">Место рождения</param>
+        /// <param name="docDate">Дата выдачи документа</param>
+        /// <returns></returns>
+        public async Task<InnResult> GetInnAsync(string surname, string name, string patronymic, DateTime? birthDate, DocumentType docType, string docNumber, string birthPlace = null, DateTime? docDate = null)
+        {
+            InnData data = new InnData()
+            {
+                Surname = surname,
+                Name = name,
+                Patronymic = patronymic,
+                BirthDate = birthDate,
+                DocType = docType,
+                DocNumber = docNumber,
+                BirthPlace = birthPlace,
+                DocDate = docDate
+            };
+            return await GetInnAsync(data);
         }
 
         private bool ServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)

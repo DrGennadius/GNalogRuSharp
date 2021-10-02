@@ -5,10 +5,11 @@ using System;
 using System.Linq;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace GNalogRuSharp.Tests
 {
-    public class Tests
+    public class InnTests
     {
         [SetUp]
         public void Setup()
@@ -16,19 +17,16 @@ namespace GNalogRuSharp.Tests
         }
 
         [Test]
-        public void Test1()
+        public async Task Test1Async()
         {
             InnService client = new InnService();
-            bool isSucces = client.FetchINN();
-            Assert.IsFalse(isSucces);
 
-            client.SetData("Фамилия", "Имя", "Отчество", null, DocumentType.PassportRussia, "9414 435125");
-            isSucces = client.FetchINN();
-            Assert.IsFalse(isSucces);
+            var result = await client.GetInnAsync("Фамилия", "Имя", "Отчество", null, DocumentType.PassportRussia, "9414 435125");
+            Assert.AreEqual(result.Code, 1);
 
             client.RemoteCertificateValidationCallbackFunc = TestValidationCallback;
-            isSucces = client.FetchINN();
-            Assert.IsFalse(isSucces);
+            result = await client.GetInnAsync("Фамилия", "Имя", "Отчество", null, DocumentType.PassportRussia, "9414 435125");
+            Assert.AreEqual(result.Code, 1);
 
             Assert.Pass();
         }

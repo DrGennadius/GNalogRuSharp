@@ -1,4 +1,5 @@
 using GNalogRuSharp.Helpers;
+using GNalogRuSharp.Services;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace GNalogRuSharp.Tests
         [Test]
         public void Test1()
         {
-            NalogRu client = new NalogRu();
+            InnService client = new InnService();
             bool isSucces = client.FetchINN();
             Assert.IsFalse(isSucces);
 

@@ -1,4 +1,5 @@
 ﻿using GNalogRuSharp.GUI.Helpers;
+using GNalogRuSharp.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -119,7 +120,7 @@ namespace GNalogRuSharp.GUI.ViewModels
                 return _getInnCommand ??
                   (_getInnCommand = new RelayCommand(obj =>
                   {
-                      NalogRu client = new NalogRu();
+                      InnService client = new InnService();
                       client.SetData(
                           Surname,
                           Name,
@@ -131,7 +132,7 @@ namespace GNalogRuSharp.GUI.ViewModels
                           DocDate);
                       bool isSucces = client.FetchINN();
                       Result = isSucces
-                        ? "ИНН: " + client.FNSInfo.INN
+                        ? "ИНН: " + client.FNSInfo.Inn
                         : $"Не получилось...\n{client.ErrorString}\n\nПроверьте правильность данных.";
                   }));
             }

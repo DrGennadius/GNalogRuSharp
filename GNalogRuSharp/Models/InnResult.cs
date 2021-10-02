@@ -1,12 +1,12 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GNalogRuSharp
+namespace GNalogRuSharp.Models
 {
     /// <summary>
-    /// Данные, возвращаемые непосредственно после запроса.
+    /// Данные, возвращаемые непосредственно после запроса в сервис для получения ИНН по паспортным данным.
     /// </summary>
     [DataContract]
-    public class FNSInfo
+    public class InnResult
     {
         /// <summary>
         /// ИНН
@@ -15,7 +15,7 @@ namespace GNalogRuSharp
         /// xxxxxxxxxxxx
         /// </example>
         [DataMember(Name = "inn")]
-        public string INN { get; set; }
+        public string Inn { get; set; }
 
         /// <summary>
         /// Требуется Captcha (?)

@@ -143,7 +143,7 @@ namespace GNalogRuSharp.GUI.ViewModels
                     DocNumberSeries,
                     BirthPlace,
                     DocDate);
-                Result = result.Code == 0
+                Result = result.Code == 1
                   ? "ИНН: " + result.Inn
                   : "Не получилось...";
             }

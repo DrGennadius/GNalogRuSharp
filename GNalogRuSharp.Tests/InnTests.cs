@@ -21,12 +21,12 @@ namespace GNalogRuSharp.Tests
         {
             InnService client = new InnService();
 
-            var result = await client.GetInnAsync("Фамилия", "Имя", "Отчество", null, DocumentType.PassportRussia, "9414 435125");
-            Assert.AreEqual(result.Code, 1);
+            var result = await client.GetInnAsync("Фамилия", "Имя", "Отчество", DateTime.Now, DocumentType.PassportRussia, "94 14 435125");
+            Assert.AreEqual(result.Code, 0);
 
             client.RemoteCertificateValidationCallbackFunc = TestValidationCallback;
-            result = await client.GetInnAsync("Фамилия", "Имя", "Отчество", null, DocumentType.PassportRussia, "9414 435125");
-            Assert.AreEqual(result.Code, 1);
+            result = await client.GetInnAsync("Фамилия", "Имя", "Отчество", DateTime.Now, DocumentType.PassportRussia, "94 14 435125");
+            Assert.AreEqual(result.Code, 0);
 
             Assert.Pass();
         }

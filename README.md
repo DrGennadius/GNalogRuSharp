@@ -49,5 +49,5 @@ var result = await client.GetStatusAsync(data);
 
 ## Пример простого GUI для библиотеки
 Каких-то GUI не планировал, но вот что-то немного набросал по быстрому, скриншоты:
-![image](https://user-images.githubusercontent.com/27915885/135743242-af7a3a34-2990-4727-9510-54949b34afe7.png)
-![image](https://user-images.githubusercontent.com/27915885/135743254-6357a89b-7889-4336-8e46-c0e4fb1fdee5.png)
+![image](https://user-images.githubusercontent.com/27915885/135745403-5847121c-55bc-4f64-8638-fbeddc6b9ad0.png)
+![image](https://user-images.githubusercontent.com/27915885/135745422-5306993a-9cd8-48e6-8d14-f03bda7d484d.png)

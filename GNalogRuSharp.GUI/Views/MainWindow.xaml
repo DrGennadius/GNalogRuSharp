@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GNalogRuSharp.GUI.Views"
         mc:Ignorable="d"
         Title="ФНС" Height="450" Width="800" 
-        Icon="pack://siteoforigin:,,,/Assets/fns-logo.ico">
+        Icon="pack://siteoforigin:,,,/Assets/unofficial-fns.ico">
 
     <TabControl SelectionChanged="TabControl_SelectionChanged">
         <TabItem Header="ИНН">

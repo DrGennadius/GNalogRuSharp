@@ -1,0 +1,21 @@
+﻿<Window x:Class="GNalogRuSharp.GUI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GNalogRuSharp.GUI.Views" 
+        xmlns:converters="clr-namespace:GNalogRuSharp.GUI.Converters" 
+        xmlns:viewmodels="clr-namespace:GNalogRuSharp.GUI.ViewModels"
+        mc:Ignorable="d"
+        Title="Получение ИНН по паспортным данным." Height="450" Width="800">
+    
+    <TabControl>
+        <TabItem Header="ИНН">
+            <local:InnServiceView/>
+        </TabItem>
+        <TabItem Header="Статус самозанятого">
+            <local:TaxpayerStatusServiceView/>
+        </TabItem>
+    </TabControl>
+
+</Window>

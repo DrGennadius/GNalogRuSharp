@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GNalogRuSharp.GUI
+namespace GNalogRuSharp.GUI.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

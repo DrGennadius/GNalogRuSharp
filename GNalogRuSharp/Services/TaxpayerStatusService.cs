@@ -58,6 +58,18 @@ namespace GNalogRuSharp.Services
         }
 
         /// <summary>
+        /// Получить информацию о статусе налогоплательщика налога на профессиональный доход(самозанятого)
+        /// </summary>
+        /// <param name="inn">ИНН налогоплательщика.</param>
+        /// <param name="requestDate">Дата, для которой будет осуществлена проверка статуса самозанятого.</param>
+        /// <returns></returns>
+        public async Task<TaxpayerStatusResult> GetStatusAsync(string inn, DateTime? requestDate)
+        {
+            TaxpayerStatusData taxpayerStatusData = new TaxpayerStatusData(inn, requestDate);
+            return await GetStatusAsync(taxpayerStatusData);
+        }
+
+        /// <summary>
         /// Получить за сегодня информацию о статусе налогоплательщика налога на профессиональный доход(самозанятого)
         /// </summary>
         /// <param name="inn">ИНН налогоплательщика.</param>

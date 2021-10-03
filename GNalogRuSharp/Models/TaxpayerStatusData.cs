@@ -35,6 +35,15 @@ namespace GNalogRuSharp.Models
             SetRequestDate(requestDate);
         }
 
+        public TaxpayerStatusData(string inn, DateTime? requestDate)
+        {
+            Inn = inn;
+            if (requestDate.HasValue)
+            {
+                SetRequestDate(requestDate.Value);
+            }
+        }
+
         /// <summary>
         /// ИНН налогоплательщика.
         /// </summary>

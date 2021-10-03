@@ -46,3 +46,8 @@ var data = new TaxpayerStatusData()
 };
 var result = await client.GetStatusAsync(data);
 ```
+
+## Пример простого GUI для библиотеки
+Каких-то GUI не планировал, но вот что-то немного набросал по быстрому, скриншоты:
+![image](https://user-images.githubusercontent.com/27915885/135743242-af7a3a34-2990-4727-9510-54949b34afe7.png)
+![image](https://user-images.githubusercontent.com/27915885/135743254-6357a89b-7889-4336-8e46-c0e4fb1fdee5.png)

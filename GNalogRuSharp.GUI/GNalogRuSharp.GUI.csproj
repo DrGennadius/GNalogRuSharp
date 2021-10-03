@@ -4,13 +4,23 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net45</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Gennadius (Gennady Zykov)</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>fns-logo.ico</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GNalogRuSharp\GNalogRuSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Assets\fns-logo.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

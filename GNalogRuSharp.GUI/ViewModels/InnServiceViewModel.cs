@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GNalogRuSharp.GUI.ViewModels
 {
-    public class InnServiceViewModel : INotifyPropertyChanged
+    public class InnServiceViewModel : ViewModelBase
     {
         private InnService _client = new InnService();
 
@@ -122,13 +122,6 @@ namespace GNalogRuSharp.GUI.ViewModels
                 return _getInnCommand ??
                   (_getInnCommand = new RelayCommand(x => FetchInnAsync()));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         private async void FetchInnAsync()

@@ -24,8 +24,31 @@ namespace GNalogRuSharp.GUI.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            DataContext = new MainViewModel();
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tabControl = sender as TabControl;
+            var tabItem = tabControl.SelectedItem as TabItem;
+            if (tabItem != null)
+            {
+                switch (tabItem.Header)
+                {
+                    case "ИНН":
+                        Title = "Получение ИНН по паспортным данным";
+                        break;
+                    case "Статус самозанятого":
+                        Title = "Получение статуса самозанятого";
+                        break;
+                    default:
+                        Title = "ФНС";
+                        break;
+                }
+            }
+            else
+            {
+                Title = "ФНС";
+            }
         }
     }
 }
